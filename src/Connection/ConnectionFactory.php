@@ -20,7 +20,7 @@ class ConnectionFactory
 
     public function __construct()
     {
-        $fileContents = json_decode(file_get_contents(CONFIG_DIR . '/db_config.json'), true);
+        $fileContents = json_decode(file_get_contents(__DIR__ . '/../../resource/config/db_config.json'), true);
         $this->SERVER_NAME = $fileContents['servername'];
         $this->DB_NAME = $fileContents['dbname'];
         $this->USER_NAME = $fileContents['username'];

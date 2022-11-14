@@ -15,7 +15,7 @@ class Listener
 
     public function __construct()
     {
-        $fileContents = json_decode(file_get_contents(CONFIG_DIR . '/web-config.jsom'), true);
+        $fileContents = json_decode(file_get_contents(__DIR__ . '/../../resource/config/web_config.json'), true);
         $this->HOST = $fileContents['host'];
         $this->PORT = $fileContents['port'];
 

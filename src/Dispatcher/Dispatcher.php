@@ -78,8 +78,8 @@ class Dispatcher
 
         if ($result['method'] == 'OPTIONS') {
             foreach ($splitRequest as $line) {
-                if (preg_split('/\:\s/', $line)[0] == 'Access-Control-Request-Method') {
-                    $result['method'] = preg_split('/\:\s/', $line)[1];
+                if (preg_split('/:\s/', $line)[0] == 'Access-Control-Request-Method') {
+                    $result['method'] = preg_split('/:\s/', $line)[1];
                 }
             }
         }
@@ -157,7 +157,7 @@ class Dispatcher
     {
         if ($variableName) {
             $variableValue = $this->getPathVariableValue($requestPath, $methodPath, $variableName);
-            $methodPathReplaced = preg_replace('/\{' . $variableName . '\}/', $variableValue, $methodPath);
+            $methodPathReplaced = preg_replace('/\{' . $variableName . '}/', $variableValue, $methodPath);
 
             return $methodPathReplaced === $requestPath;
         } else {

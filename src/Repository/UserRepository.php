@@ -4,16 +4,14 @@ namespace App\Repository;
 
 use App\Connection\ConnectionFactory;
 use App\Entity\User;
-use App\Exception\ConnectionException;
+use App\Mapper\UserMapper;
+use Exception;
 use PDO;
 
 class UserRepository
 {
-//    private string $SQL_SELECT_ALL = 'SELECT * FROM user';
-//    private string $SQL_SELECT_BY_EMAIL = 'SELECT * FROM user WHERE email = :email';
-//    private string $SQL_INSERT = 'INSERT INTO user (email, name, gender, status) VALUE (:email, :name, :gender, :status)';
-//    private string $SQL_UPDATE = 'UPDATE user SET name = :name, gender = :gender, status = :status WHERE email = :email';
-//    private string $SQL_DELETE = 'DELETE FROM user WHERE email = :email';
+    private string $SQL_FIND_BY_EMAIL = 'SELECT * FROM users WHERE email=:email';
+    private string $SQL_INSERT = 'INSERT INTO users (email, first_name, last_name, password) VALUE (:email, :firstName, :lastName, :password)';
 
     private ConnectionFactory $connectionFactory;
 
@@ -22,28 +20,48 @@ class UserRepository
         $this->connectionFactory = new ConnectionFactory();
     }
 
-//    public function findAll(): array
-//    {
-//
-//    }
-//
-//    public function findByEmail(string $email): User
-//    {
-//
-//    }
-//
-//    public function addUser(User $toAdd): User
-//    {
-//
-//    }
-//
-//    public function updateUser(User $toUpdate): User
-//    {
-//
-//    }
-//
-//    public function deleteUser(string $email): void
-//    {
-//
-//    }
+    public function findUserByEmail(string $email): User|bool
+    {
+        try {
+            $connection = $this->connectionFactory->getConnection();
+            $statement = $connection->prepare($this->SQL_FIND_BY_EMAIL);
+
+            $statement->bindParam(':email', $email);
+
+            $statement->execute();
+            $statement->setFetchMode(PDO::FETCH_ASSOC);
+            $result = $statement->fetchAll();
+
+            return !empty($result) ? UserMapper::toEntity($result[0]) : false;
+        } catch (Exception $e) {
+            die($e->getMessage()); //FIXME Handle this
+        }
+    }
+
+    public function addUser(User $toAdd): User
+    {
+        try {
+            $connection = $this->connectionFactory->getConnection();
+            $statement = $connection->prepare($this->SQL_INSERT);
+
+            $email = $toAdd->getEmail();
+            $firstName = $toAdd->getFirstName();
+            $lastName = $toAdd->getLastName();
+            $password = $toAdd->getPassword();
+
+            $statement->bindParam(':email', $email);
+            $statement->bindParam(':firstName', $firstName);
+            $statement->bindParam(':lastName', $lastName);
+            $statement->bindParam(':password', $password);
+
+            $statement->execute();
+            $toAdd->setId($connection->lastInsertId());
+
+            $connection = null;
+
+            return $toAdd;
+        } catch (Exception $e) {
+            die($e->getMessage()); //FIXME Handle this
+        }
+    }
 }
