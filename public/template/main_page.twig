@@ -1,0 +1,170 @@
+<head>
+    <title>{% block title %}{{ pageTitle }}{% endblock %}</title>
+    {% block stylesheets %}
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css"
+              integrity="sha384-r4NyP46KrjDleawBgD5tp8Y7UzmLA05oM1iAEQ17CSuDqnUK2+k9luXQOfXJCJ4I"
+              crossorigin="anonymous">
+        <link rel="stylesheet" href="https://bootstrap5.ru/css/docs.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    {% endblock %}
+</head>
+<body style="background-color: #eee">
+{% block body %}
+    {% block body_container_main_content %}
+        <div style="display: flex; width: 90%; margin: 3%"
+             class="card rounded-5">
+            <form id="form" method="POST" action="../handlers/registerHandler.php">
+
+                <div class="form-group row" style="margin: 10px">
+                    <label class="col-sm-5"></label>
+                    <h2 class="col-sm-2" style="margin: 10px;">Fill to register</h2>
+                    <label class="col-sm-5"></label>
+                </div>
+
+                <div class="form-group row" style="margin: 10px">
+                    <label for="first_name" class="col-sm-3 col-form-label">First Name</label>
+                    <div class="col-sm-9">
+                        <input id="first_name" name="first_name" class="form-control" type="text"
+                                {% if first_name %}
+                                    value="{{ first_name }}"
+                                {% endif %}
+                               placeholder="John" style="background-color: #eee">
+                    </div>
+                </div>
+
+                <div class="form-group row" style="margin: 10px">
+                    <label for="last_name" class="col-sm-3 col-form-label">Last Name</label>
+                    <div class="col-sm-9">
+                        <input id="last_name" name="last_name" class="form-control" type="text"
+                                {% if last_name %}
+                                    value="{{ last_name }}"
+                                {% endif %}
+                               placeholder="Doe" style="background-color: #eee">
+                    </div>
+                </div>
+
+                <div class="form-group row" style="margin: 10px">
+                    <label for="email" class="col-sm-3 col-form-label">Email</label>
+                    <div class="col-sm-9">
+                        <input id="email" name="email" class="form-control" type="email" placeholder="email@domain.com"
+                               style="background-color: #eee">
+                    </div>
+                </div>
+
+                <div class="form-group row" style="margin: 10px">
+                    <label for="confirm_email" class="col-sm-3 col-form-label">Confirm email</label>
+                    <div class="col-sm-9">
+                        <input id="confirm_email" class="form-control" type="email" placeholder="email@domain.com"
+                               style="background-color: #eee">
+                    </div>
+                </div>
+
+                <div class="form-group row" style="margin: 10px">
+                    <label for="password" class="col-sm-3 col-form-label">Password</label>
+                    <div class="col-sm-9">
+                        <input id="password" name="password" class="form-control" type="password"
+                               style="background-color: #eee" aria-describedby="passwordHelpBlock">
+                    </div>
+                    <small id="passwordHelpBlock" class="form-text text-muted">
+                        Password should contain at least one small character, at least one capital character, at least
+                        one digit, at least one special character and be not less than 6 characters long
+                    </small>
+                </div>
+
+                <div class="form-group row" style="margin: 10px">
+                    <label for="confirm_password" class="col-sm-3 col-form-label">Confirm Password</label>
+                    <div class="col-sm-9">
+                        <input id="confirm_password" class="form-control" type="password"
+                               style="background-color: #eee">
+                    </div>
+                </div>
+                <div class="form-group-row" style="margin: 10px">
+                    <label class="col-sm-5"
+                    {% if code == 400 %}
+                        <p class="col-sm-2">User with this email is already registered</p>
+                    {% endif %}
+                    <label class="col-sm-5"></label>
+                </div>
+                <div class="form-group row" style="margin: 10px">
+                    <label class="col-sm-5"></label>
+                    <button id="submit" type="submit" onclick="return checkFields()" class="col-sm-2 btn btn-success"
+                            style="margin: 10px;">Register
+                    </button>
+                    <label class="col-sm-5"></label>
+                </div>
+            </form>
+        </div>
+    {% endblock %}
+{% endblock %}
+{% block script %}
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#password').on('change', function () {
+                if (!($('#password').val() === $('#confirm_password').val())) {
+                    $('#password').css("border-color", "red");
+                    $('#confirm_password').css("border-color", "red");
+                } else {
+                    $('#password').css("border-color", "#ced4da");
+                    $('#confirm_password').css("border-color", "#ced4da");
+                }
+            });
+
+            $('#confirm_password').on('change', function () {
+                if (!($('#password').val() === $('#confirm_password').val())) {
+                    $('#password').css("border-color", "red");
+                    $('#confirm_password').css("border-color", "red");
+                } else {
+                    $('#password').css("border-color", "#ced4da");
+                    $('#confirm_password').css("border-color", "#ced4da");
+                }
+            });
+
+            $('#email').on('change', function () {
+                if (!($('#email').val() === $('#confirm_email').val())) {
+                    $('#email').css("border-color", "red");
+                    $('#confirm_email').css("border-color", "red");
+                } else {
+                    $('#email').css("border-color", "#ced4da");
+                    $('#confirm_email').css("border-color", "#ced4da");
+                }
+            });
+
+            $('#confirm_email').on('change', function () {
+                if (!($('#email').val() === $('#confirm_email').val())) {
+                    $('#email').css("border-color", "red");
+                    $('#confirm_email').css("border-color", "red");
+                } else {
+                    $('#email').css("border-color", "#ced4da");
+                    $('#confirm_email').css("border-color", "#ced4da");
+                }
+            });
+        });
+
+        function checkFields() {
+            let email = $('#email').val();
+            let password = $('#password').val();
+            if ($('#first_name').val() === '' || $('#last_name').val() === '') {
+                return displayAlert('You need to fill all fields');
+            } else if (email !== $('#confirm_email').val()) {
+                return displayAlert('You need to confirm email');
+            } else if (!String(email).match(
+                /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+            )) {
+                return displayAlert('Invalid email');
+            } else if (password !== $('#confirm_password').val()) {
+                return displayAlert('You need to confirm password')
+            } else if (!String(password).match(
+                /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/
+            )) {
+                return displayAlert('Password does not meet requirements');
+            }
+            return true;
+        }
+
+        function displayAlert(alertMessage) {
+            alert(alertMessage);
+            return false;
+        }
+    </script>
+{% endblock %}
+</body>

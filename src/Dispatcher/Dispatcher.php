@@ -93,6 +93,7 @@ class Dispatcher
             'Date: ' . date('D, d M Y H:i:s e') . "\r\n" .
             ($responseBody === '' ? '' : ('Content-Length: ' . strlen($responseBody) . "\r\n")) .
             ($responseBody === '' ? '' : ("Content-Type: application/json\r\n")) .
+            "Access-Control-Allow-Origin: *\r\n" .
             "Connection: Closed\r\n" .
             ($responseBody === '' ? '' : ("\r\n$responseBody"));
     }
@@ -105,6 +106,7 @@ class Dispatcher
             'Date: ' . date('D, d M Y H:i:s e') . "\r\n" .
             "ContentType: application/json\r\n" .
             'ContentLength: ' . strlen($jsonException) . "\r\n" .
+            "Access-Control-Allow-Origin: *\r\n" .
             "Connection: Closed\r\n\r\n" .
             $jsonException;
     }

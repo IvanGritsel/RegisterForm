@@ -23,11 +23,12 @@ class RegisterController implements Controller
     /**
      * @param string $userJson
      *
+     * @throws Exception
+     *
      * @return string
      *
      * @RequestMapping(path="/register", method="POST")
      * @RequestBodyVariable(variableName="userJson")
-     * @throws Exception
      */
     public function register(string $userJson): string
     {
