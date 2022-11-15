@@ -22,7 +22,7 @@ socket_close($sock);
 
 $responseLines = preg_split("/\r\n/", $response);
 $responseBody = json_decode(end($responseLines), true);
-//var_dump($responseBody);
+
 if ($responseBody) {
     $code = preg_split('/\s/', $responseLines[0])[1];
     $responseBody['code'] = $code;

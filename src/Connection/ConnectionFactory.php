@@ -8,8 +8,6 @@ use PDOException;
 
 class ConnectionFactory
 {
-//    private string $PATH_TO_CONFIG = __DIR__ . '/db_config.json';
-
     private string $SERVER_NAME;
 
     private string $DB_NAME;

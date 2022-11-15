@@ -7,7 +7,6 @@ use JetBrains\PhpStorm\NoReturn;
 
 class Listener
 {
-    //private string $PATH_TO_CONFIG = ROOT_DIR . '/../config/web_config.json';
     private string $HOST;
     private int $PORT;
 
