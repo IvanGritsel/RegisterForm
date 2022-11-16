@@ -15,6 +15,9 @@ class RegisterService
         $this->userRepository = new UserRepository();
     }
 
+    /**
+     * @throws Exception
+     */
     public function register(string $userJson): string
     {
         $userArray = json_decode($userJson, true);

@@ -20,6 +20,9 @@ class UserRepository
         $this->connectionFactory = new ConnectionFactory();
     }
 
+    /**
+     * @throws Exception
+     */
     public function findUserByEmail(string $email): User|bool
     {
         try {
@@ -34,10 +37,13 @@ class UserRepository
 
             return !empty($result) ? UserMapper::toEntity($result[0]) : false;
         } catch (Exception $e) {
-            die($e->getMessage()); //FIXME Handle this
+            throw new Exception('Cant execute request', 503, $e);
         }
     }
 
+    /**
+     * @throws Exception
+     */
     public function addUser(User $toAdd): User
     {
         try {
@@ -61,7 +67,7 @@ class UserRepository
 
             return $toAdd;
         } catch (Exception $e) {
-            die($e->getMessage()); //FIXME Handle this
+            throw new Exception('Cant execute request', 503, $e);
         }
     }
 }
